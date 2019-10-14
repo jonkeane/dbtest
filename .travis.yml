@@ -4,11 +4,10 @@ language: R
 cache: packages
 
 services:
-  - mysql
+  - postgresql
 
 before_script:
-  - sudo mysql -e 'create database nycflights;'
-  - sudo mysql -e 'CREATE USER IF NOT EXISTS travis@localhost; GRANT ALL ON *.* TO travis@localhost; FLUSH PRIVILEGES;'
+  - psql -c 'create database nycflights;' -U postgres
 
 r:
   - oldrel

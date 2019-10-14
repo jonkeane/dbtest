@@ -3,9 +3,9 @@ library(RMariaDB)
 
 
 con <- DBI::dbConnect(
-  RMariaDB::MariaDB(),
+  RPostgres::Postgres(),
   dbname = "nycflights",
-  username = "travis",
+  username = "postgres",
   password = "",
   host = "127.0.0.1")
 
