@@ -5,6 +5,10 @@ cache: packages
 sudo: required
 dist: trusty
 
+r_github_packages:
+  - r-dbi/DBI
+  - r-dbi/RPostgres
+
 # from sf, TODO: remove postgis/gdl/etc
 addons:
   postgresql: "9.6"
@@ -34,9 +38,8 @@ before_install:
   - sudo ldconfig
   # create postgis databases:
   - sudo service postgresql restart
-
-before_script:
-  - psql -c 'create database nycflights;' -U postgres
+  - createdb nycflights
+  - psql -d nycflights -c "GRANT CREATE ON DATABASE nycflights TO travis"
 
 r:
   - oldrel
