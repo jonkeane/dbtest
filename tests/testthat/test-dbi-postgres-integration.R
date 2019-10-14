@@ -1,5 +1,5 @@
 context("MariaDB")
-library(RMariaDB)
+library(RPostgres)
 
 
 con <- DBI::dbConnect(
