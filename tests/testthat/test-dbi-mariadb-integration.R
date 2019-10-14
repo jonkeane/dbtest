@@ -13,6 +13,12 @@ print(con)
 
 message(dbListTables(con))
 
+DBI::dbWriteTable(
+  con,
+  table,
+  mtcars
+)
+
 skip("just connect")
 
 con <- nycflights13_sql(con)
