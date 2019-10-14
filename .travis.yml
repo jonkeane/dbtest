@@ -11,7 +11,6 @@ services:
 
 before_script:
   - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo mariadb -e 'create database nycflights;'; fi
-  - if [ "$TRAVIS_OS_NAME" = "linux" ]; then sudo mariadb -e 'CREATE USER IF NOT EXISTS travis@localhost; GRANT ALL ON *.* TO travis@localhost;'; fi
 
 r:
   - oldrel
