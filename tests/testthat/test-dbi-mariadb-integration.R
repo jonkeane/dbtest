@@ -1,4 +1,5 @@
 context("MariaDB")
+skip("install?")
 library(RMariaDB)
 
 
