@@ -1,5 +1,4 @@
 context("MariaDB")
-skip("install?")
 library(RMariaDB)
 
 
@@ -11,6 +10,8 @@ con <- DBI::dbConnect(
   host = "127.0.0.1")
 
 con <- nycflights13_sql(con)
+
+skip("once more")
 
 test_that("The fixture is what we expect", {
   expect_identical(
@@ -30,10 +31,31 @@ test_that("The fixture is what we expect", {
 
 DBI::dbDisconnect(con)
 
-skip("not ready yet")
+start_capturing()
+
+con <- DBI::dbConnect(
+  RMariaDB::MariaDB(),
+  dbname = "nycflights",
+  username = "travis",
+  password = "",
+  host = "127.0.0.1")
+
+dbGetQuery(con, "SELECT * FROM airlines LIMIT 2")
+dbGetQuery(con, "SELECT * FROM airlines LIMIT 1")
+
+DBI::dbDisconnect(con)
+
+stop_capturing()
+
 
 with_mock_db({
-  con <- DBI::dbConnect(RSQLite::SQLite(), "memory")
+  con <- DBI::dbConnect(
+    RMariaDB::MariaDB(),
+    dbname = "nycflights",
+    username = "travis",
+    password = "",
+    host = "127.0.0.1")
+
   test_that("Our connection is a mock connection", {
     expect_is(
       con,
