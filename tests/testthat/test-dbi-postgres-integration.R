@@ -5,7 +5,9 @@ library(RPostgres)
 con <- DBI::dbConnect(
   RPostgres::Postgres(),
   dbname = "nycflights",
-  user = "travis")
+  user = "travis",
+  host = "127.0.0.1",
+  port = "5432")
 
 skip("once more")
 
