@@ -11,7 +11,7 @@ services:
 
 before_script:
   - sudo mariadb -e 'create database nycflights;'
-  - sudo mariadb -e 'CREATE USER IF NOT EXISTS travis@localhost; GRANT ALL ON *.* TO travis@localhost;'
+  - sudo mariadb -e 'CREATE USER IF NOT EXISTS travis@localhost; GRANT ALL ON *.* TO travis@localhost; FLUSH PRIVILEGES;'
 
 r:
   - oldrel
