@@ -11,6 +11,8 @@ con <- DBI::dbConnect(
   host = "127.0.0.1")
 print(con)
 
+message(dbListTables(con))
+
 skip("just connect")
 
 con <- nycflights13_sql(con)
