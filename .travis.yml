@@ -2,6 +2,15 @@
 
 language: R
 cache: packages
+sudo: false
+dist: trusty
+
+#addons
+addons:
+  postgresql: "9.4"
+  apt:
+    packages:
+    - libpq-dev
 
 services:
   - postgresql
