@@ -1,4 +1,4 @@
-acronis
+api
 Codecov
 dbFetchQuery
 DBIMockConnection
@@ -8,8 +8,9 @@ dbSendQuery
 dplyr
 fs
 https
-kb
-LPT
-NUL
-PRN
-wikipedia
+httptest
+invisibily
+libPaths
+mockPaths
+odbc
+RSQLite

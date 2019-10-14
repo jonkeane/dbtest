@@ -1,5 +1,9 @@
 #' Capture and record database transactions and save them as mocks
 #'
+#' @param path the path to record mocks.
+#'
+#' @return NULL (invisibily)
+#'
 #' @name capture_requests
 NULL
 
@@ -38,11 +42,16 @@ quietly <- function (expr) {
 
 #' @rdname capture_requests
 #' @export
-start_capturing <- function() {
+start_capturing <- function(path) {
+  if (!missing(path)) {
+    ## Note that this changes state and doesn't reset it
+    .mockPaths(path)
+  }
+
   quietly(trace(
     "dbConnect",
     exit = quote({
-      .dbtest_env$db_path <-get_dbname(list(...))
+      .dbtest_env$db_path <- file.path(.mockPaths()[1], get_dbname(list(...)))
       dir.create(.dbtest_env$db_path, showWarnings = FALSE, recursive = TRUE)
       }),
     print = getOption("dbtest.debug", FALSE),
@@ -52,6 +61,12 @@ start_capturing <- function() {
   quietly(trace(
     "dbSendQuery",
     exit = quote({
+      if (getOption("dbtest.debug", FALSE)) {
+        message(
+          "The statement: \n", statement,
+          "\nis being hased to: ", hash(statement)
+        )
+      }
       .dbtest_env$curr_file_path <- make_path(
         .dbtest_env$db_path,
         strsplit(statement, " ")[[1]][1],
@@ -67,6 +82,12 @@ start_capturing <- function() {
     exit = quote(dput(ans, .dbtest_env$curr_file_path)),
     print = getOption("dbtest.debug", FALSE),
     where = asNamespace("DBI")
+  ))
+
+  quietly(trace(
+    "dbGetRowsAffected",
+    exit = quote(dput(result_rows_affected(res@ptr), .dbtest_env$curr_file_path)),
+    print = getOption("dbtest.debug", FALSE)
   ))
 
   return(invisible(NULL))

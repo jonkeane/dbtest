@@ -2,8 +2,7 @@ context("Test against dbplyr")
 library(DBI)
 
 # testing against built-in sqlite database
-flights_db <- nycflights13_sqlite()
-con <- flights_db$con
+con <- nycflights13_sql(sqlite = TRUE, use = "dplyr")
 
 test_that("The fixture is what we expect", {
   expect_identical(
@@ -20,17 +19,18 @@ test_that("The fixture is what we expect", {
 
 rm(con)
 
-skip("For now, dplyr connections won't work")
-# test with the mock db using the mocks in the tests/testthat/mocks/ directory
+# test with the mock db using some captured mocks
+start_capturing()
+con <- nycflights13_sql(sqlite = TRUE, use = "dplyr")
+dbListTables(con) # we have to list tables in order to have the mocks work below
+
+# record mocks for a few queries we are planning to execute below
+DBI::dbGetQuery(con, "SELECT * FROM airlines")
+stop_capturing()
+
+# now try the whole thing again, but this time with the mock db.
 with_mock_db({
-  con <- nycflights13_sqlite()
-
-  # nycflights13_sqlite(use == "DBI") returns
-  # unable to find an inherited method for function ‘dbListTables’ for signature ‘"DBIMockConnection"’
-
-  # nycflights13_sqlite(use == "dplyr") returns
-  # Error in RSQLite::initExtension(con) :
-  # no slot of name "loadable.extensions" for this object of class "DBIMockConnection"
+  con <- nycflights13_sql(sqlite = TRUE, use = "dplyr")
 
   test_that("We can mock it", {
     expect_is(
@@ -42,7 +42,7 @@ with_mock_db({
   test_that("We get our special query", {
     expect_identical(
       DBI::dbGetQuery(con, "SELECT * FROM airlines"),
-      nycflights13::airlines
+      as.data.frame(nycflights13::airlines)
     )
   })
 })

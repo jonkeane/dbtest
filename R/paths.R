@@ -7,11 +7,7 @@
 #' @return a constructed path to a mock
 #' @export
 make_path <- function(path, type, hash) {
-  path_out <- lapply(
-    c(path, paste0(type, "-", hash, ".R")),
-    db_path_sanitize
-  )
-  path_out <- do.call(file.path, path_out)
+  path_out <- file.path(path, db_path_sanitize(paste0(type, "-", hash, ".R")))
   return(path_out)
 }
 
@@ -23,20 +19,22 @@ make_path <- function(path, type, hash) {
 #' @return a hash for the string
 #' @export
 #' @importFrom digest digest
-hash <- function (string, n=6) substr(digest(string), 1, n)
-
-ensure_file <- function(file_path) {
-  if (!file.exists(file_path)) {
-    return(FALSE)
-  }
-  return(TRUE)
+hash <- function (string, n=6) {
+  string <- ignore_dbplyr_unique_names(string)
+  return(substr(digest(string), 1, n))
 }
 
-read_file <- function(file_path) {
-  if (!ensure_file(file_path)) {
-    stop("Couldn't find the file at ", file_path)
+read_file <- function(file_path) source(file_path)$value
+
+# search through .mockPaths() to find a file, returning the first
+find_file <- function(file_path) {
+  for (mock_path in .mockPaths()) {
+    path_to_check <- file.path(mock_path, file_path)
+    if (file.exists(path_to_check)) {
+      return(path_to_check)
+    }
   }
 
-  return(source(file_path)$value)
+  stop("Couldn't find the file ", file_path, " in any of the mock directories.")
 }
 
