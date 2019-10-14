@@ -7,8 +7,11 @@ con <- DBI::dbConnect(
   RMariaDB::MariaDB(),
   dbname = "nycflights",
   username = "travis",
-  password = "")
+  password = "",
+  host = "127.0.0.1")
 print(con)
+
+skip("just connect")
 
 con <- nycflights13_sql(con)
 DBI::dbListTables(con)
