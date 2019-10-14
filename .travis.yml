@@ -2,18 +2,38 @@
 
 language: R
 cache: packages
-sudo: false
+sudo: required
 dist: trusty
 
-#addons
+# from sf, TODO: remove postgis/gdl/etc
 addons:
-  postgresql: "9.4"
+  postgresql: "9.6"
   apt:
+    sources:
+      - sourceline: 'ppa:opencpu/jq'
+      - sourceline: 'ppa:ubuntugis/ubuntugis-unstable'
+      - sourceline: 'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main'
+        key_url: 'https://www.postgresql.org/media/keys/ACCC4CF8.asc'
     packages:
-    - libpq-dev
+      - libprotobuf-dev
+      - protobuf-compiler
+      - libv8-3.14-dev
+      - libjq-dev
+      - libudunits2-dev
+      - libproj-dev
+      - libgeos-dev
+      - libspatialite-dev
+      - libgdal-dev
+      - libjson-c-dev
+      - libnetcdf-dev
+      - netcdf-bin
+      - postgresql-server-dev-9.6
 
-services:
-  - postgresql
+before_install:
+  # activate liblwgeom by:
+  - sudo ldconfig
+  # create postgis databases:
+  - sudo service postgresql restart
 
 before_script:
   - psql -c 'create database nycflights;' -U postgres
