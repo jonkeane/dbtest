@@ -9,15 +9,9 @@ con <- DBI::dbConnect(
   username = "travis",
   password = "",
   host = "127.0.0.1")
-print(con)
 
 con <- nycflights13_sql(con)
 
-print(DBI::dbListTables(con))
-
-
-
-skip("no more")
 test_that("The fixture is what we expect", {
   expect_identical(
     DBI::dbListTables(con),
@@ -36,8 +30,9 @@ test_that("The fixture is what we expect", {
 
 DBI::dbDisconnect(con)
 
+skip("not ready yet")
+
 with_mock_db({
-  # ":memory:" is non-portable, so using something close, but portable
   con <- DBI::dbConnect(RSQLite::SQLite(), "memory")
   test_that("Our connection is a mock connection", {
     expect_is(
