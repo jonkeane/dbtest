@@ -9,9 +9,11 @@ con <- DBI::dbConnect(
   password = "",
   host = "127.0.0.1")
 
+skip("once more")
+
+
 con <- nycflights13_sql(con)
 
-skip("once more")
 
 test_that("The fixture is what we expect", {
   expect_identical(
