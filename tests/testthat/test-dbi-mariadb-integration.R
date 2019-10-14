@@ -5,7 +5,7 @@ library(RMariaDB)
 con <- DBI::dbConnect(
   RMariaDB::MariaDB(),
   dbname = "nycflights",
-  username = "root",
+  username = "travis",
   password = "",
   host = "127.0.0.1")
 
