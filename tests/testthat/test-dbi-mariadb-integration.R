@@ -11,18 +11,9 @@ con <- DBI::dbConnect(
   host = "127.0.0.1")
 print(con)
 
-message(dbListTables(con))
-
-DBI::dbWriteTable(
-  con,
-  table,
-  mtcars
-)
-
-skip("just connect")
-
 con <- nycflights13_sql(con)
-DBI::dbListTables(con)
+
+print(DBI::dbListTables(con))
 
 
 

@@ -56,10 +56,10 @@ nycflights13_sql <- function(con, sqlite = FALSE, use = c("DBI", "dplyr"), ...) 
       DBI::dbWriteTable(
         con,
         table,
-        df,
-        unique_indexes = unique_index[[table]],
-        indexes = index[[table]],
-        temporary = FALSE
+        df
+        # unique_indexes = unique_index[[table]],
+        # indexes = index[[table]],
+        # temporary = FALSE
       )
     }
   } else if (use == "dplyr") {
