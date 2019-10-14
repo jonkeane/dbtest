@@ -5,7 +5,7 @@ library(RPostgres)
 con <- DBI::dbConnect(
   RPostgres::Postgres(),
   dbname = "nycflights",
-  username = "postgres",
+  user = "postgres",
   password = "",
   host = "127.0.0.1")
 
