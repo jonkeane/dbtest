@@ -3,11 +3,8 @@
 language: R
 cache: packages
 
-addons:
-  mariadb: 10.3
-
 services:
-  - mariadb
+  - mysql
 
 before_script:
   - sudo mysql -e 'create database nycflights;'
