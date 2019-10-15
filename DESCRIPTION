@@ -36,6 +36,8 @@ Suggests:
     covr,
     nycflights13,
     odbc,
+    RMariaDB,
+    RPostgres,
     RSQLite,
     spelling,
     RPostgreSQL
