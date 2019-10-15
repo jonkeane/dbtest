@@ -2,6 +2,13 @@
 
 language: R
 cache: packages
+dist: trusty
+
+addons:
+  postgresql: "9.4"
+  apt:
+    packages:
+    - libpq-dev
 
 before_install:
   - sh postgres-docker.sh
