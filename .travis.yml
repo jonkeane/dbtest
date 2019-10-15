@@ -2,9 +2,10 @@
 
 language: R
 cache: packages
+dist: trusty
 
 addons:
-  postgresql: 10
+  postgresql: "9.4"
   apt:
     packages:
      # postgres
