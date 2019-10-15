@@ -14,7 +14,8 @@ con <- DBI::dbConnect(
 con <- nycflights13_sql(con)
 
 test_that("The fixture is what we expect", {
-  expect_identical(
+  # Sometimes the order changes depending on the system
+  expect_setequal(
     dbListTables(con),
     c("airlines", "planes", "weather", "airports", "flights")
   )
