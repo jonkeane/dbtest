@@ -1,26 +1,25 @@
-context("MariaDB")
+context("Postgres")
 library(RPostgres)
 
 
 con <- DBI::dbConnect(
   RPostgres::Postgres(),
   dbname = "nycflights",
-  host = "localhost")
-
-skip("once more")
-
+  host = "127.0.0.1",
+  user = "travis",
+  password = "6c9FT%Kj"
+)
 
 con <- nycflights13_sql(con)
 
-
 test_that("The fixture is what we expect", {
   expect_identical(
-    DBI::dbListTables(con),
+    dbListTables(con),
     c("airlines", "airports", "flights", "planes", "weather")
   )
 
   expect_identical(
-    DBI::dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
+    dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
     data.frame(
       carrier = c("9E", "AA"),
       name = c("Endeavor Air Inc.", "American Airlines Inc."),
@@ -34,11 +33,12 @@ DBI::dbDisconnect(con)
 start_capturing()
 
 con <- DBI::dbConnect(
-  RMariaDB::MariaDB(),
+  RPostgres::Postgres(),
   dbname = "nycflights",
-  username = "travis",
-  password = "",
-  host = "127.0.0.1")
+  host = "127.0.0.1",
+  user = "travis",
+  password = "6c9FT%Kj"
+)
 
 dbGetQuery(con, "SELECT * FROM airlines LIMIT 2")
 dbGetQuery(con, "SELECT * FROM airlines LIMIT 1")
@@ -50,11 +50,12 @@ stop_capturing()
 
 with_mock_db({
   con <- DBI::dbConnect(
-    RMariaDB::MariaDB(),
+    RPostgres::Postgres(),
     dbname = "nycflights",
-    username = "travis",
-    password = "",
-    host = "127.0.0.1")
+    host = "127.0.0.1",
+    user = "travis",
+    password = "6c9FT%Kj"
+  )
 
   test_that("Our connection is a mock connection", {
     expect_is(

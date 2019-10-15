@@ -2,30 +2,9 @@
 
 language: R
 cache: packages
-sudo: required
-
-r_github_packages:
-  - r-dbi/DBI
-  - r-dbi/RPostgres
-
-# from sf, TODO: remove postgis/gdl/etc
-addons:
-  postgresql: "9.6"
-  apt:
-    sources:
-      - sourceline: 'deb http://apt.postgresql.org/pub/repos/apt/ trusty-pgdg main'
-        key_url: 'https://www.postgresql.org/media/keys/ACCC4CF8.asc'
-    packages:
-      - postgresql-server-dev-9.6
 
 before_install:
-  # activate liblwgeom by:
-  - sudo ldconfig
-  # create postgis databases:
-  - sudo service postgresql restart
-  - createdb nycflights
-  - psql -d nycflights -c "GRANT CREATE ON DATABASE nycflights TO travis"
-  - sudo netstat -na
+  - sh postgres-docker.sh
 
 r:
   - oldrel

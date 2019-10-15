@@ -53,13 +53,12 @@ nycflights13_sql <- function(con, sqlite = FALSE, use = c("DBI", "dplyr"), ...) 
       df <- getExportedValue("nycflights13", table)
       message("Creating table: ", table)
 
-      DBI::dbWriteTable(
+      dbWriteTable(
         con,
-        table,
-        df
-        # unique_indexes = unique_index[[table]],
-        # indexes = index[[table]],
-        # temporary = FALSE
+        name = table,
+        value = df,
+        overwrite = TRUE,
+        temporary = FALSE
       )
     }
   } else if (use == "dplyr") {
@@ -73,8 +72,8 @@ nycflights13_sql <- function(con, sqlite = FALSE, use = c("DBI", "dplyr"), ...) 
         con,
         df,
         name = table,
-        unique_indexes = unique_index[[table]],
-        indexes = index[[table]],
+        # unique_indexes = unique_index[[table]],
+        # indexes = index[[table]],
         temporary = FALSE
       )
     }
