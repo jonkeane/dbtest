@@ -7,7 +7,12 @@ addons:
   postgresql: 10
   apt:
     packages:
+     # postgres
      - libpq-dev
+     - libssh2-1-dev
+     # mariadb
+     - libmysqlclient-dev
+     - libmagick++-dev
      - libssh2-1-dev
 
 before_install:
