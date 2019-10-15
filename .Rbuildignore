@@ -3,4 +3,6 @@
 ^LICENSE\.md$
 ^\.travis\.yml$
 ^codecov\.yml$
-docker.sh
+docker.sh$
+macos
+.sh$

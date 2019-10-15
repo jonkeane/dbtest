@@ -1,3 +1,6 @@
+# stop the travis postgres
+sudo /etc/init.d/postgresql stop || true
+
 docker pull postgres
 
 # on macos, you can only run port forwards
