@@ -11,6 +11,8 @@ before_install:
 before_script:
   - if [ $TRAVIS_OS_NAME = "linux" ]; then export DBTEST_DISABLE_PG=true; fi
   - if [ $TRAVIS_OS_NAME = "linux" ]; then export DBTEST_DISABLE_MARIA=true; fi
+  # we have to install from source, or else we get `result_fetch(res@ptr, n = n)`
+  - R -q -e 'install.packages("RMariaDB", type = "source");'
 
 r:
   - oldrel

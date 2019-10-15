@@ -14,10 +14,9 @@ con <- DBI::dbConnect(
 con <- nycflights13_sql(con)
 
 test_that("The fixture is what we expect", {
-  expect_length(setdiff(
+  expect_identical(
     dbListTables(con),
-    c("airlines", "planes", "weather", "airports", "flights")),
-    0
+    c("airlines", "planes", "weather", "airports", "flights")
   )
 
   expect_identical(
