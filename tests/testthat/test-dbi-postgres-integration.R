@@ -7,7 +7,7 @@ con <- DBI::dbConnect(
   dbname = "nycflights",
   host = "127.0.0.1",
   user = "travis",
-  password = "6c9FT%Kj"
+  password = ""
 )
 
 con <- nycflights13_sql(con)
