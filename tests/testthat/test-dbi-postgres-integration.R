@@ -1,6 +1,7 @@
 context("Postgres")
 library(RPostgres)
 skip_env("postgres")
+skip_locally("use postgres-docker.sh and test manually")
 
 # setup the database that will be mocked and then tested
 con <- DBI::dbConnect(
@@ -31,25 +32,10 @@ test_that("The fixture is what we expect", {
 
 DBI::dbDisconnect(con)
 
-start_capturing()
 
-con <- DBI::dbConnect(
-  RPostgres::Postgres(),
-  dbname = "nycflights",
-  host = "127.0.0.1",
-  user = "travis",
-  password = "6c9FT%Kj"
-)
+with_mock_path(path = "postgres_integration", {
+  start_capturing()
 
-dbGetQuery(con, "SELECT * FROM airlines LIMIT 2")
-dbGetQuery(con, "SELECT * FROM airlines LIMIT 1")
-
-DBI::dbDisconnect(con)
-
-stop_capturing()
-
-
-with_mock_db({
   con <- DBI::dbConnect(
     RPostgres::Postgres(),
     dbname = "nycflights",
@@ -58,46 +44,64 @@ with_mock_db({
     password = "6c9FT%Kj"
   )
 
-  test_that("Our connection is a mock connection", {
-    expect_is(
-      con,
-      "DBIMockConnection"
-    )
-  })
+  dbGetQuery(con, "SELECT * FROM airlines LIMIT 2")
+  dbGetQuery(con, "SELECT * FROM airlines LIMIT 1")
 
-  test_that("We can use mocks for dbGetQeury", {
-    expect_identical(
-      dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
-      data.frame(
-        carrier = c("9E", "AA"),
-        name = c("Endeavor Air Inc.", "American Airlines Inc."),
-        stringsAsFactors = FALSE
+  DBI::dbDisconnect(con)
+
+  stop_capturing()
+
+
+  with_mock_db({
+    con <- DBI::dbConnect(
+      RPostgres::Postgres(),
+      dbname = "nycflights",
+      host = "127.0.0.1",
+      user = "travis",
+      password = "6c9FT%Kj"
+    )
+
+    test_that("Our connection is a mock connection", {
+      expect_is(
+        con,
+        "DBIMockConnection"
       )
-    )
-  })
+    })
 
-  test_that("We can use mocks for dbSendQuery", {
-    result <- dbSendQuery(con, "SELECT * FROM airlines LIMIT 2")
-    expect_identical(
-      dbFetch(result),
-      data.frame(
-        carrier = c("9E", "AA"),
-        name = c("Endeavor Air Inc.", "American Airlines Inc."),
-        stringsAsFactors = FALSE
+    test_that("We can use mocks for dbGetQeury", {
+      expect_identical(
+        dbGetQuery(con, "SELECT * FROM airlines LIMIT 2"),
+        data.frame(
+          carrier = c("9E", "AA"),
+          name = c("Endeavor Air Inc.", "American Airlines Inc."),
+          stringsAsFactors = FALSE
+        )
       )
-    )
-  })
+    })
 
-  test_that("A different query uses a different mock", {
-    expect_identical(
-      dbGetQuery(con, "SELECT * FROM airlines LIMIT 1"),
-      data.frame(
-        carrier = c("9E"),
-        name = c("Endeavor Air Inc."),
-        stringsAsFactors = FALSE
+    test_that("We can use mocks for dbSendQuery", {
+      result <- dbSendQuery(con, "SELECT * FROM airlines LIMIT 2")
+      expect_identical(
+        dbFetch(result),
+        data.frame(
+          carrier = c("9E", "AA"),
+          name = c("Endeavor Air Inc.", "American Airlines Inc."),
+          stringsAsFactors = FALSE
+        )
       )
-    )
-  })
+    })
 
-  dbDisconnect(con)
+    test_that("A different query uses a different mock", {
+      expect_identical(
+        dbGetQuery(con, "SELECT * FROM airlines LIMIT 1"),
+        data.frame(
+          carrier = c("9E"),
+          name = c("Endeavor Air Inc."),
+          stringsAsFactors = FALSE
+        )
+      )
+    })
+
+    dbDisconnect(con)
+  })
 })
