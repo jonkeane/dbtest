@@ -1,12 +1,12 @@
-context("Postgres")
-library(RPostgres)
+context("MariaDB")
+library(RMariaDB)
+skip("RMariaDB is currently segfaulting")
 
-# setup the database that will be mocked and then tested
 con <- DBI::dbConnect(
-  RPostgres::Postgres(),
+  RMariaDB::MariaDB(),
   dbname = "nycflights",
   host = "127.0.0.1",
-  user = "travis",
+  username = "travis",
   password = ""
 )
 
@@ -15,7 +15,7 @@ con <- nycflights13_sql(con)
 test_that("The fixture is what we expect", {
   expect_identical(
     dbListTables(con),
-    c("airlines", "airports", "flights", "planes", "weather")
+    c("airlines", "planes", "weather", "airports", "flights")
   )
 
   expect_identical(
@@ -33,10 +33,10 @@ DBI::dbDisconnect(con)
 start_capturing()
 
 con <- DBI::dbConnect(
-  RPostgres::Postgres(),
+  RMariaDB::MariaDB(),
   dbname = "nycflights",
   host = "127.0.0.1",
-  user = "travis",
+  username = "travis",
   password = "6c9FT%Kj"
 )
 
@@ -50,10 +50,10 @@ stop_capturing()
 
 with_mock_db({
   con <- DBI::dbConnect(
-    RPostgres::Postgres(),
+    RMariaDB::MariaDB(),
     dbname = "nycflights",
     host = "127.0.0.1",
-    user = "travis",
+    username = "travis",
     password = "6c9FT%Kj"
   )
 

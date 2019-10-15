@@ -12,7 +12,9 @@ addons:
 
 before_install:
   - if [ $TRAVIS_OS_NAME = "linux" ]; then sh postgres-docker.sh; fi
-  - if [ $TRAVIS_OS_NAME = "osx" ]; then sh postgres-macos.sh; fi
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then sh postgres-travis-macos.sh; fi
+  - if [ $TRAVIS_OS_NAME = "linux" ]; then sh mariadb-docker.sh; fi
+  - if [ $TRAVIS_OS_NAME = "osx" ]; then sh mariadb-travis-macos.sh; fi
 
 r:
   - oldrel
