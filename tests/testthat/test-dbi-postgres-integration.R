@@ -1,7 +1,6 @@
 context("Postgres")
 library(RPostgres)
-skip("segfaulting")
-# TODO: skip only on linux-travis
+skip_env("postgres")
 
 # setup the database that will be mocked and then tested
 con <- DBI::dbConnect(

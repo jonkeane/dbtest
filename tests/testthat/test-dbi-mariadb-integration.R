@@ -1,5 +1,6 @@
 context("MariaDB")
 library(RMariaDB)
+skip_env("mariadb")
 
 con <- DBI::dbConnect(
   RMariaDB::MariaDB(),
