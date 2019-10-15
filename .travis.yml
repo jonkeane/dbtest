@@ -9,8 +9,8 @@ before_install:
   - if [ $TRAVIS_OS_NAME = "osx" ]; then sh mariadb-travis-macos.sh; fi
 
 before_script:
-  - if [ $TRAVIS_OS_NAME = "linux" ]; export DBTEST_DISABLE_PG=true; fi
-  - if [ $TRAVIS_OS_NAME = "linux" ]; export DBTEST_DISABLE_MARIA=true; fi
+  - if [ $TRAVIS_OS_NAME = "linux" ]; then export DBTEST_DISABLE_PG=true; fi
+  - if [ $TRAVIS_OS_NAME = "linux" ]; then export DBTEST_DISABLE_MARIA=true; fi
 
 r:
   - oldrel
