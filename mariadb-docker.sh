@@ -1,5 +1,5 @@
 # stop the travis mariadb
-sudo service mariadb stop || true
+sudo service mysql stop || true
 
 docker pull mariadb
 
