@@ -2,17 +2,12 @@
 
 language: R
 cache: packages
-dist: trusty
-
-addons:
-  postgresql: "9.4"
-  apt:
-    packages:
-    - libpq-dev
 
 before_install:
   - sudo /etc/init.d/postgresql stop
   - sh postgres-docker.sh
+  - test $TRAVIS_OS_NAME = "osx" && sh postgres-macos.sh
+
 
 r:
   - oldrel
