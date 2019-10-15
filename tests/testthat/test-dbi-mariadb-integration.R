@@ -1,6 +1,5 @@
 context("MariaDB")
 library(RMariaDB)
-skip("RMariaDB is currently segfaulting")
 
 con <- DBI::dbConnect(
   RMariaDB::MariaDB(),
