@@ -4,9 +4,8 @@ language: R
 cache: packages
 
 before_install:
-  - test $TRAVIS_OS_NAME = "linux" && sh postgres-docker.sh
-  - test $TRAVIS_OS_NAME = "osx" && sh postgres-macos.sh
-
+  - if [ $TRAVIS_OS_NAME = "linux" ]; then sh postgres-docker.sh; fi
+  - if [ $TRAVIS_OS_NAME = "macos" ]; then sh postgres-macos.sh; fi
 r:
   - oldrel
   - release
