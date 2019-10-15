@@ -1,3 +1,6 @@
+# stop the travis mariadb
+sudo /etc/init.d/mariadb stop || true
+
 docker pull mariadb
 
 # on macos, you can only run port forwards
