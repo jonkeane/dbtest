@@ -4,10 +4,8 @@ language: R
 cache: packages
 
 before_install:
-  - sudo /etc/init.d/postgresql stop
-  - sh postgres-docker.sh
+  - test $TRAVIS_OS_NAME = "linux" && sh postgres-docker.sh
   - test $TRAVIS_OS_NAME = "osx" && sh postgres-macos.sh
-
 
 r:
   - oldrel
