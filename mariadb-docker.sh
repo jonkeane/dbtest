@@ -8,7 +8,7 @@ n=0
 until [ $n -ge 15 ]
 do
     docker exec -it dbtest-mariadb mysql -pr2N5y7V* -e "CREATE DATABASE nycflights;" && break  # substitute your command here
-   n=$[$n+1]
+   n=$[ $n+1 ]
    sleep 15
 done
 
@@ -17,10 +17,7 @@ docker exec -it dbtest-mariadb mysql -pr2N5y7V* -e "CREATE USER IF NOT EXISTS tr
 
 
 
-
-
-
-docker stop dbtest-mariadb
-docker rm dbtest-mariadb
-
-docker exec -it dbtest-mariadb mysql -pr2N5y7V* -e "DROP DATABASE nycflights;"
+# docker stop dbtest-mariadb
+# docker rm dbtest-mariadb
+#
+# docker exec -it dbtest-mariadb mysql -pr2N5y7V* -e "DROP DATABASE nycflights;"
