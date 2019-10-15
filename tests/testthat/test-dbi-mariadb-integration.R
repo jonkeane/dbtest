@@ -40,7 +40,7 @@ with_mock_path(path = "mariadb_integration", {
     dbname = "nycflights",
     host = "127.0.0.1",
     username = "travis",
-    password = "6c9FT%Kj"
+    password = ""
   )
 
   dbGetQuery(con, "SELECT * FROM airlines LIMIT 2")
@@ -57,7 +57,7 @@ with_mock_path(path = "mariadb_integration", {
       dbname = "nycflights",
       host = "127.0.0.1",
       username = "travis",
-      password = "6c9FT%Kj"
+      password = ""
     )
 
     test_that("Our connection is a mock connection", {
