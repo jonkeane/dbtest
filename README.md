@@ -1,5 +1,3 @@
-# dbtest
-<!-- badges: start -->
-[![Travis build status](https://travis-ci.org/jonkeane/dbtest.svg?branch=master)](https://travis-ci.org/jonkeane/dbtest)
-[![Codecov test coverage](https://codecov.io/gh/jonkeane/dbtest/branch/master/graph/badge.svg)](https://codecov.io/gh/jonkeane/dbtest?branch=master)
-<!-- badges: end -->
+# dbtest -> dittodb
+
+`dbtest` has been renamed to `dittodb` in order to avoid a possible name clash. Please see the repo at [https://github.com/jonkeane/dittodb](https://github.com/jonkeane/dittodb)
